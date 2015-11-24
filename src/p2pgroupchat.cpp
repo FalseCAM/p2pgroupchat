@@ -21,6 +21,7 @@
 #include "tcpthread.h"
 #include "container.h"
 #include "querynodethread.h"
+#include "crypto.h"
 
 #include "Logger.hpp"
 
@@ -72,6 +73,11 @@ int main(int argc, char** argv) {
 	}
 	
 	const auto myPort = atoi(argv[1]);
+
+    Crypto crypto;
+    crypto.generateNew();
+    crypto.save("privatekey", "publickey.pub");
+
 	
 	UDP::Socket udpSocket(myPort);
 	

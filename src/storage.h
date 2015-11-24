@@ -1,10 +1,11 @@
 #ifndef STORAGE_H
 #define STORAGE_H
 
-class Storage
-{
+#include <p2p/Root.hpp>
+
+class Storage {
 public:
-    Storage();
+    static void savePublicKey(p2p::Root::PublicKey& key);
 };
 
 #endif // STORAGE_H
