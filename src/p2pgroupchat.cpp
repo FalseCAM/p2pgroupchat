@@ -74,11 +74,16 @@ int main(int argc, char** argv) {
 	
 	const auto myPort = atoi(argv[1]);
 
-    Crypto crypto;
-    crypto.generateNew();
-    crypto.save("privatekey", "publickey.pub");
+    const std::string privatekey = "privatekey";
+    const std::string publickey = "publickey.pub";
 
-	
+    Crypto crypto;
+    if(!crypto.load(privatekey, publickey))
+    {
+        crypto.generateNew();
+        crypto.save(privatekey, publickey);
+    }
+
 	UDP::Socket udpSocket(myPort);
 	
 	// Generate a private key for our node.

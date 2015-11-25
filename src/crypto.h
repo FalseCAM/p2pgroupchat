@@ -18,6 +18,9 @@ protected:
 
     void savePrivateKey(const std::string &filename, const CryptoPP::PrivateKey &key);
     void savePublicKey(const std::string &filename, const CryptoPP::PublicKey &key);
+    void loadPrivateKey(const std::string &filename, CryptoPP::PrivateKey &key);
+    void loadPublicKey(const std::string &filename, CryptoPP::PublicKey &key);
+    void load(const std::string &filename, CryptoPP::BufferedTransformation &bt);
 };
 
 #endif // CRYPTO_H
