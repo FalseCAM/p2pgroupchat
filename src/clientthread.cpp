@@ -2,7 +2,8 @@
 
 #include "stdoutstream.h"
 
-ClientThread::ClientThread() { }
+ClientThread::ClientThread(Crypto &crypto) :crypto(crypto) {
+}
 ClientThread::~ClientThread() { }
 
 p2p::TCP::Stream& ClientThread::getTCPStream() {
@@ -16,7 +17,7 @@ void ClientThread::run() {
         StdOutStream outputStream;
 
         stream >> outputStream;
-        std::cout << outputStream.getString() << std::endl;
+        std::cout << crypto.decrypt(outputStream.getString()) << std::endl;
     } catch (const std::exception& e) {
         std::cout << "Failed with error: " << e.what() << std::endl;
     }

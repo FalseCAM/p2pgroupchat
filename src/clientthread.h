@@ -8,10 +8,11 @@
 #include <p2p/TCP.hpp>
 
 #include "textiostream.h"
+#include "crypto.h"
 
 class ClientThread: public p2p::Runnable {
     public:
-        ClientThread();
+        ClientThread(Crypto &crypto);
         virtual ~ClientThread();
 
         p2p::TCP::Stream& getTCPStream();
@@ -22,6 +23,7 @@ class ClientThread: public p2p::Runnable {
 
     private:
         p2p::TCP::Stream tcpStream_;
+        Crypto &crypto;
 
 };
 

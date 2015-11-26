@@ -1,8 +1,5 @@
 #include "crypto.h"
-
-#include <cryptopp/osrng.h>
 #include <cryptopp/files.h>
-
 
 Crypto::Crypto()
 {
@@ -10,9 +7,7 @@ Crypto::Crypto()
 
 void Crypto::generateNew()
 {
-    CryptoPP::AutoSeededRandomPool rnd;
-
-    rsaPrivate.GenerateRandomWithKeySize(rnd, 3072);
+    rsaPrivate.GenerateRandomWithKeySize(rng, 3072);
 
     rsaPublic = CryptoPP::RSA::PublicKey(rsaPrivate);
 }
@@ -23,7 +18,7 @@ bool Crypto::load(std::string privateKey, std::string publicKey)
         loadPrivateKey(privateKey, rsaPrivate);
         loadPublicKey(publicKey, rsaPublic);
     }catch(std::exception &e){
-            return false;
+        return false;
     }
     return true;
 }
@@ -33,6 +28,32 @@ bool Crypto::save(std::string privateKey, std::string publicKey)
     savePrivateKey(privateKey, rsaPrivate);
     savePublicKey(publicKey, rsaPublic);
     return true;
+}
+
+std::string Crypto::encrypt(std::string plain)
+{
+    std::string cipher;
+    CryptoPP::RSAES_OAEP_SHA_Encryptor e( rsaPrivate );
+
+    CryptoPP::StringSource ss1( plain, true,
+                                new CryptoPP::PK_EncryptorFilter( rng, e,
+                                                                  new CryptoPP::StringSink( cipher )
+                                                                  )
+                                );
+    return cipher;
+}
+
+std::string Crypto::decrypt(std::string cipher)
+{
+    std::string recovered;
+    CryptoPP::RSAES_OAEP_SHA_Decryptor d( rsaPrivate );
+
+    CryptoPP::StringSource ss2( cipher, true,
+                                new CryptoPP::PK_DecryptorFilter( rng, d,
+                                                                  new CryptoPP::StringSink( recovered )
+                                                                  )
+                                );
+    return recovered;
 }
 
 void Crypto::savePrivateKey(const std::string& filename, const CryptoPP::PrivateKey& key)

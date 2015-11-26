@@ -139,7 +139,7 @@ int main(int argc, char** argv) {
 
     TCP::Acceptor acceptor(myPort);
 
-    TcpThread tcpThreadRunnable(&acceptor);
+    TcpThread tcpThreadRunnable(&acceptor, crypto);
     Thread tcpThread(tcpThreadRunnable);
 
 	
@@ -257,7 +257,7 @@ int main(int argc, char** argv) {
 			logger.log(STR("%s:     help (h): Display this help text.", command.c_str()));
 			logger.log(STR("%s:     quit (q): Exit application.", command.c_str()));
         } else {
-            std::string message = rawCommand;
+            std::string message = crypto.encrypt(rawCommand);
             for (const auto& nodeEntryPair: nodeDatabase.map()) {
                 const auto& nodeEntry = nodeEntryPair.second;
                 for (const auto& endpoint: nodeEntry.endpointSet) {
