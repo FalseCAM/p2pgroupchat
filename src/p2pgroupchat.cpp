@@ -67,15 +67,18 @@ void sendTcpMessage(TCP::Endpoint &endpoint, std::string &message) {
 int main(int argc, char** argv) {
 	Logger logger;
 	
-	if (argc != 2) {
-        logger.log("Usage: p2pgroupchat [my port]");
+    if (argc != 4) {
+        logger.log("Usage: p2pgroupchat [my port] [privatekey] [publickey]");
 		return -1;
 	}
 	
 	const auto myPort = atoi(argv[1]);
 
-    const std::string privatekey = "privatekey";
-    const std::string publickey = "publickey.pub";
+    std::string privatekey_file = argv[2];
+    std::string publickey_file = argv[3];
+
+    const std::string privatekey = privatekey_file;
+    const std::string publickey = publickey_file;
 
     Crypto crypto;
     if(!crypto.load(privatekey, publickey))
@@ -87,8 +90,10 @@ int main(int argc, char** argv) {
 	UDP::Socket udpSocket(myPort);
 	
 	// Generate a private key for our node.
-	Crypt::AutoSeededRandomPool rand;
-	Crypt::ECDSA::PrivateKey privateKey(rand, Crypt::ECDSA::brainpoolP256r1);
+    Crypt::AutoSeededRandomPool rand;
+    //Crypt::ECDSA::PrivateKey privateKey(rand, Crypt::ECDSA::brainpoolP256r1);
+
+    Crypt::ECDSA::PrivateKey privateKey = crypto.getPrivate();
 
 
 	Root::NodeDatabase nodeDatabase;
@@ -97,6 +102,9 @@ int main(int argc, char** argv) {
 	logger.log("========");
 	logger.log(STR("======== My id is '%s'.", privateIdentity.id().hexString().c_str()));
 	logger.log("========");
+
+    logger.log(STR("======== My pub key id is '%s'.", Root::NodeId::Generate(crypto.getPublic()).hexString().c_str()));
+
 	
 	// Send/receive data on appropriate transport.
 	Root::TransportSocket transportSocket(udpSocket);
@@ -257,7 +265,8 @@ int main(int argc, char** argv) {
 			logger.log(STR("%s:     help (h): Display this help text.", command.c_str()));
 			logger.log(STR("%s:     quit (q): Exit application.", command.c_str()));
         } else {
-            std::string message = crypto.encrypt(rawCommand);
+            //std::string message = crypto.encrypt(rawCommand);
+            std::string message = rawCommand;
             for (const auto& nodeEntryPair: nodeDatabase.map()) {
                 const auto& nodeEntry = nodeEntryPair.second;
                 for (const auto& endpoint: nodeEntry.endpointSet) {

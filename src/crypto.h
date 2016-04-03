@@ -2,6 +2,7 @@
 #define CRYPTO_H
 
 #include <cryptopp/rsa.h>
+#include <p2p/Crypt/ECDSA.hpp>
 #include <cryptopp/osrng.h>
 
 class Crypto
@@ -15,9 +16,12 @@ public:
     std::string encrypt(std::string plain);
     std::string decrypt(std::string cipher);
 
+    p2p::Crypt::ECDSA::PrivateKey getPrivate();
+    p2p::Crypt::ECDSA::PublicKey getPublic();
+
 protected:
-    CryptoPP::RSA::PrivateKey rsaPrivate;
-    CryptoPP::RSA::PublicKey rsaPublic;
+    p2p::Crypt::ECDSA::PrivateKey rsaPrivate;
+    p2p::Crypt::ECDSA::PublicKey rsaPublic;
     void save(const std::string &filename, const CryptoPP::BufferedTransformation &bt);
 
     void savePrivateKey(const std::string &filename, const CryptoPP::PrivateKey &key);

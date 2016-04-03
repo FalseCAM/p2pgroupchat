@@ -1,5 +1,6 @@
 #include "crypto.h"
 #include <cryptopp/files.h>
+#include <p2p/Crypt/AutoSeededRandomPool.hpp>
 
 Crypto::Crypto()
 {
@@ -7,9 +8,12 @@ Crypto::Crypto()
 
 void Crypto::generateNew()
 {
-    rsaPrivate.GenerateRandomWithKeySize(rng, 3072);
+    //rsaPrivate.GenerateRandomWithKeySize(rng, 3072);
 
-    rsaPublic = CryptoPP::RSA::PublicKey(rsaPrivate);
+    p2p::Crypt::AutoSeededRandomPool rand;
+    rsaPrivate = p2p::Crypt::ECDSA::PrivateKey(rand, p2p::Crypt::ECDSA::brainpoolP256r1);
+
+    rsaPublic = p2p::Crypt::ECDSA::PublicKey(rand, rsaPrivate);
 }
 
 bool Crypto::load(std::string privateKey, std::string publicKey)
@@ -54,6 +58,16 @@ std::string Crypto::decrypt(std::string cipher)
                                                                   )
                                 );
     return recovered;
+}
+
+p2p::Crypt::ECDSA::PrivateKey Crypto::getPrivate()
+{
+    return rsaPrivate;
+}
+
+p2p::Crypt::ECDSA::PublicKey Crypto::getPublic()
+{
+    return rsaPublic;
 }
 
 void Crypto::savePrivateKey(const std::string& filename, const CryptoPP::PrivateKey& key)

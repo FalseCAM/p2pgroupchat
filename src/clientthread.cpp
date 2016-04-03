@@ -17,7 +17,8 @@ void ClientThread::run() {
         StdOutStream outputStream;
 
         stream >> outputStream;
-        std::cout << crypto.decrypt(outputStream.getString()) << std::endl;
+        //std::cout << crypto.decrypt(outputStream.getString()) << std::endl;
+        std::cout << outputStream.getString() << std::endl;
     } catch (const std::exception& e) {
         std::cout << "Failed with error: " << e.what() << std::endl;
     }
