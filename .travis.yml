@@ -13,7 +13,7 @@ install:
  - sudo apt-get update -qq
  - sudo apt-get install -qq  unzip qt5-qmake qtbase5-dev qtdeclarative5-dev qttools5-dev libqt5webkit5-dev
  - sudo apt-get install -qq libcv-dev libcvaux-dev libhighgui-dev libopencv-dev libjpeg-dev libpng-dev
- - sudo apt-get install libcrypto++-utils librypto++-dev
+ - sudo apt-get install libcrypto++-utils libcrypto++-dev
 
  - wget https://github.com/scross99/openp2p/archive/master.zip
  - unzip master.zip
