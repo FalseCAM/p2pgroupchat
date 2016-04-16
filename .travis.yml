@@ -17,7 +17,7 @@ install:
  - sudo apt-get install -qq doxygen-latex
  - wget https://github.com/scross99/openp2p/archive/master.zip
  - unzip master.zip
- - mv openp2p-master openp2p && mkdir openp2p/build && cd openp2p/build && cmake .. && make && sudo make install
+ - mv openp2p-master openp2p && mkdir openp2p/build && cd openp2p/build && cmake .. && make
 
 before_script:
  - mkdir build
