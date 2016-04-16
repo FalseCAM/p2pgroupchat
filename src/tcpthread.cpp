@@ -1,5 +1,6 @@
 #include "tcpthread.h"
 #include "clientthread.h"
+#include <iostream>
 #include <p2p/Concurrency.hpp>
 
 TcpThread::TcpThread(p2p::TCP::Acceptor* acceptor, Crypto &crypto):acceptor_(acceptor), crypto(crypto){

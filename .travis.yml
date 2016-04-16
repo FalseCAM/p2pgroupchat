@@ -1,0 +1,27 @@
+language:
+ - cpp
+
+os:
+ - linux
+dist: trusty
+sudo: required
+compiler:
+     - gcc
+     - clang
+
+install:
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq  unzip qt5-qmake qtbase5-dev qtdeclarative5-dev qttools5-dev libqt5webkit5-dev
+ - sudo apt-get install -qq libcv-dev libcvaux-dev libhighgui-dev libopencv-dev libjpeg-dev libpng-dev
+ - sudo apt-get install libcrypto++-utils librypto++-dev
+
+ - wget https://github.com/scross99/openp2p/archive/master.zip
+ - unzip master.zip
+ - mv openp2p-master openp2p && mkdir openp2p/build && cd openp2p/build && cmake .. && make && sudo make install
+
+before_script:
+ - mkdir build
+ - cd build
+ - cmake ..
+script:
+ - make

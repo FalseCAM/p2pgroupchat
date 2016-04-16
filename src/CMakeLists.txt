@@ -16,8 +16,11 @@ set(${PROJECT_NAME}libs ${Boost_LIBRARIES} ${Crypto++_LIBRARIES} ${OpenP2P_LIBRA
 file (GLOB_RECURSE Sources "*.cpp")
 file (GLOB_RECURSE Headers "*.h")
 
-add_executable(${PROJECT_NAME} ${Sources} ${Headers})
+add_executable(${PROJECT_NAME}bin ${Sources} ${Headers})
 
-target_link_libraries(${PROJECT_NAME} ${${PROJECT_NAME}libs})
+add_library(${PROJECT_NAME} ${Sources} ${Headers})
 
-INSTALL(TARGETS ${PROJECT_NAME} DESTINATION ${PROJECT_NAME}/bin)
+target_link_libraries(${PROJECT_NAME}bin ${${PROJECT_NAME}libs})
+
+INSTALL(TARGETS ${PROJECT_NAME}bin DESTINATION ${PROJECT_NAME}/bin)
+INSTALL(TARGETS ${PROJECT_NAME} DESTINATION ${PROJECT_NAME}/lib)

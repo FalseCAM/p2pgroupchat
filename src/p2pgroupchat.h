@@ -1,0 +1,4 @@
+#ifndef P2PGROUPCHAT_H
+#define P2PGROUPCHAT_H
+
+#endif // P2PGROUPCHAT_H
