@@ -12,7 +12,7 @@ compiler:
 install:
  - sudo apt-get update -qq
  - sudo apt-get install -qq unzip qt5-qmake qtbase5-dev qtdeclarative5-dev qttools5-dev libqt5webkit5-dev
- - sudo apt-get install -qq libcrypto++-utils libcrypto++-dev
+ - sudo apt-get install -qq libcrypto++-utils libcrypto++-dev libfuse-dev
  - sudo apt-get install -qq libboost-thread-dev libboost-system-dev
  - sudo apt-get install -qq doxygen-latex
  - wget https://github.com/scross99/openp2p/archive/master.zip
